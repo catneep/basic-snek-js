@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snek</title>
+
+  <style>
+    :root{
+      --base-unit: 2.5em;
+      --row-width: calc(var(--base-unit)*8+10px);
+
+      --snek-color: greenyellow;
+      --food-color: blue;
+    }
+    html, body{
+      top: 0;
+      left: 0;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    header{
+      display: flex;
+      width: 100%;
+      height: fit-content;
+      margin: 0;
+      padding: 0 2em;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    header button{ font-size: 2.2em; }
+
+    #main{
+      display: flex;
+      position: relative;
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      width: fit-content;
+      border: 5px solid red;
+    }
+
+    #main > section > div{
+      margin: 0;
+      padding: 0;
+      width: var(--base-unit);
+      height: var(--base-unit);
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    #main div.snek-body{
+      background-color: var(--snek-color);
+    }
+
+    #main div.food{
+      background-color: var(--food-color);
+    }
+  </style>
+
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header>
+    <button onclick="runGame()">
+      START
+    </button>
+    <!-- <button onclick="moveSnek('LEFT')">
+      ⬅
+    </button>
+    <button onclick="moveSnek('RIGHT')">
+      ➡
+    </button>
+    <button onclick="moveSnek('UP')">
+      ⬆
+    </button>
+    <button onclick="moveSnek('DOWN')">
+      ⬇
+    </button> -->
+    <button onclick="togglePlay()">
+      ⏯
+    </button>
+    <div>
+      <h1>
+        Score: <span id="score"></span>
+      </h1>
+      <h1>
+        High Score: <span id="high-score"></span>
+      </h1>
+    </div>
+  </header>
+  <main id="main">
+  </main>
+  <div id="debug"></div>
+</body>
+</html>

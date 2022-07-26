@@ -1,0 +1,15 @@
+✔ Verify new movement direction is valid @done (26/7/2022 01:51:08)
+✔ Handle collision @done (26/7/2022 01:10:04)
+✔ Add keyboard listeners @done (26/7/2022 01:51:04)
+✔ Handle phone swipes @done (26/7/2022 02:45:14)
+    ✔ Handle exception on pressing 'START' and small swipes @done (26/7/2022 09:23:48)
+✔ Handle quick direction changes @done (26/7/2022 10:18:54)
+✔ Track high score @done (26/7/2022 10:15:39)
+✔ Dynamic difficulty @done (26/7/2022 10:15:06)
+    ☐ Fine tune difficulties
+☐ Add session params
+☐ Make pretty
+    ☐ Display pause overlay
+    ☐ Change color of collision coord (ateItself(), inGrid())
+    ☐ Layout
+    ☐ Themes
