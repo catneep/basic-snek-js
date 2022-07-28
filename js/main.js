@@ -504,6 +504,7 @@ document.addEventListener('keyup', (e) => {
 let session;
 
 const resetSession = () => session = new GameSession();
+const toggleTutorial = () => document.getElementById('how-to').classList.toggle('hidden');
 const moveSnek = async (direction) => {
   if (session.stop) return;
   session.setDirection(direction);

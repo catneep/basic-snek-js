@@ -3,16 +3,18 @@
 
     --snek-color: greenyellow;
     --food-color: blue;
+    --grid-background: #242424;
 
     --background: #343434;
     --foreground: #c0c0c0;
-
+    
+    --transparent-background: #000000aa;
     font-family: "Lucida Console", "Courier New", monospace;
 }
 
-.hidden{ display: none !important; }
-
 .faded{ opacity: 0 !important; }
+.hidden{ display: none !important; }
+.desktop-hidden{ display: none; }
 
 .c-flex{
     display: flex;
@@ -26,24 +28,47 @@ html, body{
     padding: 0;
     margin: 0;
 
+    min-height: 100vh;
+
     overflow: hidden;
     background-color: var(--background);
     color: var(--foreground);
 }
 
-header{
+#close-tutorial,
+#open-tutorial{
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 3em;
+    opacity: 0.2;
+    margin: 0.2em;
+    transition: 300ms ease-in;
+}
+
+#close-tutorial:hover,
+#open-tutorial:hover{
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+#open-tutorial::before{ content: '❔'; }
+#close-tutorial::before{ content: '✖'; }
+
+body > header{
     width: 100%;
     height: fit-content;
     margin: 0;
     padding: 1em 2em;
 }
 
-header,
+body > header,
 #game-params {
     flex-wrap: wrap;
 }
 
-header *,
+body > header *,
 #game-params * {
     margin: 0 0.2em;
 }
@@ -56,7 +81,7 @@ header *,
     border-radius: 4px;
 }
 
-header button {
+body > header button {
     cursor: pointer;
     font-size: 2.2em;
     min-width: 3em;
@@ -65,11 +90,12 @@ header button {
     border-radius: 8px;
 }
 
-header button:disabled{ cursor: default; }
+body > header button:disabled{ cursor: default; }
 
 #scores {
     min-width: 13em;
     text-align: end;
+    margin-left: 1em;
 }
 
 #game-area{
@@ -83,8 +109,8 @@ header button:disabled{ cursor: default; }
     height: 100%;
     width: 100%;
     font-size: larger;
-    color: white;
-    background-color: #000000aa;
+    color: var(--foreground);
+    background-color: var(--transparent-background);
 }
 
 #direction-overlay {
@@ -101,6 +127,7 @@ header button:disabled{ cursor: default; }
     padding: 0;
     width: fit-content;
     border: 5px solid red;
+    background-color: var(--grid-background);
 }
 
 #main > section > div{
@@ -120,19 +147,74 @@ header button:disabled{ cursor: default; }
     background-color: var(--food-color);
 }
 
+#how-to{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    font-size: 1.4em;
+    color: var(--foreground);
+    background-color: var(--transparent-background);
+}
+
+#how-to header h1{
+    font-size: 2.2em;
+    margin-bottom: 0.2em;
+}
+
+#how-to header h2{
+    font-size: 1.4em;
+    margin: 0;
+};
+
+#how-to ul li em{
+    font-size: 1.22em;
+}
+
+#how-to p{
+    font-size: 1.2em;
+}
+
+#how-to ul{ padding: 0 2em;}
+#how-to ul li{
+    text-align: left;
+    font-size: 1em;
+    margin: 0.25em 0;
+}
+
+#how-to footer{
+    cursor: default;
+    opacity: 0.2;
+    font-size: 0.8em;
+    transition: 320ms ease-in-out;
+}
+
+a {
+    cursor: pointer;
+    color: var(--foreground);
+    text-decoration: none;
+}
+
+#how-to footer:hover { opacity: 1; }
+
 @media screen and (max-width: 620px) {
     :root{
         --base-unit: 1.6em !important;
     }
+    .mobile-hidden{ display: none; }
+    .desktop-hidden{ display: inline-block; }
     html, body{
         position: fixed;
         overscroll-behavior-y: contain;
     }
-    
-    header{
+    body > header{
         padding: 1em 0;
     }
-    header button {
+    body > header button {
         font-size: 1.8em;
         min-width: 2.4em;
         min-height: 2.4em;
@@ -141,6 +223,7 @@ header button:disabled{ cursor: default; }
     #scores {
         width: 100%;
         text-align: center;
+        margin-left: 0;
     }
     #scores * {
         margin: 0.3em 0;
@@ -161,7 +244,15 @@ header button:disabled{ cursor: default; }
     #game-area{
         margin: 0;
     }
-    .mobile-hidden{
-        display: none;
+    #close-tutorial,
+    #open-tutorial{
+        font-size: 2.2em;
+        opacity: 1;
+        transition: none;
+    }
+
+    #close-tutorial:hover,
+    #open-tutorial:hover{
+        transform: none;
     }
 }

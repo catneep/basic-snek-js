@@ -6,20 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Snek</title>
-
-  <style>
-    
-  </style>
+  <meta name="description" content="The classic time-waster written in vanilla JS and rendered with HTML 5 and CSS 3" />
 
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
+
+  <!-- Favicon stuff -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#343434">
+  <meta name="msapplication-TileImage" content="/img/ms-icon-144x144.png">
+  <meta name="theme-color" content="#343434">
 </head>
 <body>
+  <span id="open-tutorial" title="How to play" onclick="toggleTutorial()"></span>
   <header class="c-flex">
-    <button id="game-start-btn" onclick="runGame()">
+    <button title="Start a new game" id="game-start-btn" onclick="runGame()">
       START
     </button>
-    <button id="game-pause-btn" onclick="togglePlay()" disabled>
+    <button title="Pause or resume your game" id="game-pause-btn" onclick="togglePlay()" disabled>
       ⏯
     </button>
     <div id="scores">
@@ -64,7 +81,41 @@
       <div id="direction-overlay" class="c-flex faded"></div>
     </main>
   </div>
-  <div id="how-to"></div>
+  <!-- <div id="how-to" class="c-flex hidden" onclick="toggleTutorial()"> -->
+  <div id="how-to" class="c-flex hidden">
+    <article>
+      <header>
+        <h1>
+          Snek
+        </h1>
+        <h2>
+          How to play
+        </h2>
+        <span id="close-tutorial" title="Back" onclick="toggleTutorial()">
+
+        </span>
+      </header>
+      <p>
+        <ul>
+          <li>You control <em>Snek</em>, the friendly snake</li>
+          <li><em>Snek</em> is represented by the green squares on the grid</li>
+          <li>
+            Change the direction <em>Snek</em> is heading towards by <span class="mobile-hidden">using the arrow keys or WASD</span>
+            <span class="desktop-hidden">swiping on your screen</span>
+          </li>
+          <li><em>Snek</em> grows larger after eating a yummy blue square</li>
+          <li>You get a point whenever <em>Snek</em> eats</li>
+          <li>Every once in a while, <em>Snek</em> will move faster, so stay frosty!</li>
+          <li>Be careful, you'll lose if <em>Snek</em> hits a wall or eats itself</li>
+          <li>You win when <em>Snek</em> occupies the whole grid!</li>
+        </ul>
+      </p>
+      <p>Good luck!</p>
+      <footer>
+        Made with ♥ by <a href="https://www.havila.dev" target="_blank" rel="noreferrer">havila.dev</a>
+      </footer>
+    </article>
+  </div>
   <div id="debug"></div>
 </body>
 </html>
