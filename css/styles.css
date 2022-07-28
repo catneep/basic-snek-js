@@ -1,0 +1,167 @@
+:root{
+    --base-unit: 2.5em;
+
+    --snek-color: greenyellow;
+    --food-color: blue;
+
+    --background: #343434;
+    --foreground: #c0c0c0;
+
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.hidden{ display: none !important; }
+
+.faded{ opacity: 0 !important; }
+
+.c-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+html, body{
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+
+    overflow: hidden;
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+header{
+    width: 100%;
+    height: fit-content;
+    margin: 0;
+    padding: 1em 2em;
+}
+
+header,
+#game-params {
+    flex-wrap: wrap;
+}
+
+header *,
+#game-params * {
+    margin: 0 0.2em;
+}
+
+#game-params select{
+    padding: 0.3rem;
+    min-width: 8.3em;
+    font-size: 1.2em;
+    text-align: center;
+    border-radius: 4px;
+}
+
+header button {
+    cursor: pointer;
+    font-size: 2.2em;
+    min-width: 3em;
+    min-height: 3em;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+header button:disabled{ cursor: default; }
+
+#scores {
+    min-width: 13em;
+    text-align: end;
+}
+
+#game-area{
+    width: 100%;
+    margin-top: 1em;
+}
+
+#pause,
+#direction-overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-size: larger;
+    color: white;
+    background-color: #000000aa;
+}
+
+#direction-overlay {
+    font-size: 5em !important;
+    opacity: 100;
+    transition: 210ms ease-in-out;
+}
+
+#main{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+    border: 5px solid red;
+}
+
+#main > section > div{
+    margin: 0;
+    padding: 0;
+    width: var(--base-unit);
+    height: var(--base-unit);
+    border-width: 1px;
+    border-style: solid;
+}
+
+#main div.snek-body{
+    background-color: var(--snek-color);
+}
+
+#main div.food{
+    background-color: var(--food-color);
+}
+
+@media screen and (max-width: 620px) {
+    :root{
+        --base-unit: 1.6em !important;
+    }
+    html, body{
+        position: fixed;
+        overscroll-behavior-y: contain;
+    }
+    
+    header{
+        padding: 1em 0;
+    }
+    header button {
+        font-size: 1.8em;
+        min-width: 2.4em;
+        min-height: 2.4em;
+        padding: 12px;
+    }
+    #scores {
+        width: 100%;
+        text-align: center;
+    }
+    #scores * {
+        margin: 0.3em 0;
+    }
+    #game-params * {
+        width: 100%;
+        text-align: center;
+        padding: 0.2em;
+    }
+    #game-params label {
+        margin-top: 0.4em;
+    }
+
+    #game-params select{
+        min-width: 12em;
+        max-width: fit-content;
+    }
+    #game-area{
+        margin: 0;
+    }
+    .mobile-hidden{
+        display: none;
+    }
+}

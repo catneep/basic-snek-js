@@ -1,4 +1,4 @@
-const LOG_STATE = false;
+const LOG_STATE = false; // Enable to see dev logs
 
 // Utilities
 const delay = (n) =>
@@ -35,23 +35,28 @@ const getNextCoord = (snek, direction) => {
 const MOVE_SET  = {
   'UP': {
     'row': -1,
-    'col': 0
+    'col': 0,
+    'overlay-content': '⬆'
   },
   'DOWN': {
     'row': 1,
-    'col': 0
+    'col': 0,
+    'overlay-content': '⬇'
   },
   'LEFT': {
     'row': 0,
-    'col': -1
+    'col': -1,
+    'overlay-content': '⬅'
   },
   'RIGHT': {
     'row': 0,
-    'col': 1
+    'col': 1,
+    'overlay-content': '➡'
   },
   'NONE': {
     'row': 0,
-    'col': 0
+    'col': 0,
+    'overlay-content': ''
   },
 }
 
@@ -81,8 +86,17 @@ const DIFFICULTIES = {
   ),
 }
 
+const GRID_SIZES = {
+  'TINY': [4,4],
+  'SMALL': [8,8],
+  'NORMAL': [12,12],
+  'HUGE': [24,24],
+  'GINORMOUS': [128,128],
+}
+
 // Game defaults
-let dim = [8,8];
+let dim = [12,12];
+let difficultyLevel = 'NORMAL';
 let highScore = 0;
 const startingLength = 4;
 
@@ -258,7 +272,7 @@ class Snek{
 }
 
 class GameSession{
-  constructor(grid= new GameGrid(dim), snek= new Snek(), difficulty= DIFFICULTIES['NORMAL']){
+  constructor(grid= new GameGrid(dim), snek= new Snek(), difficulty= DIFFICULTIES[difficultyLevel]){
     this.grid = grid;
     this.snek = snek;
     this.stop = false;
@@ -326,15 +340,19 @@ class GameSession{
   }
 
   async thread(){
-    const handleWin = () => {
+    const handleOver = () => {
       this.stop = true;
       this.running = false;
+      toggleGameParams();
+    }
+
+    const handleWin = () => {
+      handleOver();
       alert('u win :D');
     };
 
     const handleLose = () => {
-      this.stop = true;
-      this.running = false;
+      handleOver();
       alert('u lose');
     }
 
@@ -391,7 +409,7 @@ class GameSession{
 // Start grid
 const drawGrid = (grid, parent) => {
   Array.from(parent.children).map(
-    (child) => child.remove()
+    (child) => { if (child.id != 'pause' && child.id != 'direction-overlay') child.remove(); }
   );
 
   for (let j = 0; j < grid.height; j++)
@@ -415,12 +433,6 @@ const drawGrid = (grid, parent) => {
     parent.appendChild(row);
   }
 }
-
-let session;
-
-const resetSession = () => session = new GameSession();
-const togglePlay = () => session.toggleStop();
-const moveSnek = (direction) => session.setDirection(direction);
 
 // Swipe controls
 let touchStartX, touchEndX,
@@ -476,6 +488,7 @@ document.addEventListener('keyup', (e) => {
     case 'ArrowRight':
       moveSnek('RIGHT');
       break;
+    case 'Space':
     case 'Enter':
     case 'Escape':
       if (session == undefined || !session.running) runGame();
@@ -487,7 +500,93 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
+// Session control (Calls from HTML)
+let session;
+
+const resetSession = () => session = new GameSession();
+const moveSnek = async (direction) => {
+  if (session.stop) return;
+  session.setDirection(direction);
+  showDirectionOverlay(direction);
+}
+const togglePlay = () => {
+  if (session === undefined) return;
+
+  session.toggleStop();
+  document.getElementById('pause').classList.toggle('hidden');
+}
+
+const adjustPixelSize = (dim) => {
+  const root = document.querySelector(':root');
+  console.log('value:', getComputedStyle(root).getPropertyValue('--base-unit'));
+  if (getComputedStyle(root).getPropertyValue('--base-unit') == '1.6em') return;
+  (dim[0] > 14) ?
+    root.style.setProperty('--base-unit', '16px')
+  :
+    root.style.setProperty('--base-unit', '2.5em');
+}
+
+const getSessionParams = () => {
+  const sizeSelect = document.getElementById('size');
+  const selectedGridSize = sizeSelect
+    .options[sizeSelect.selectedIndex].value;
+
+  dim = GRID_SIZES[selectedGridSize];
+  adjustPixelSize(dim);
+
+  const difSelect = document.getElementById('difficulty');
+  const selectedDifficulty = difSelect
+    .options[difSelect.selectedIndex].value;
+
+  difficultyLevel = selectedDifficulty;
+
+  if (LOG_STATE) console.log('Session params:', dim, difficultyLevel);
+}
+
+// UI Stuff
+const showGameArea = () => {
+  if (document.getElementById('game-area').classList.contains('hidden'))
+    document.getElementById('game-area').classList.remove('hidden');
+}
+
+const toggleGameParams = () => {
+  const sizeSelect = document.getElementById('size');
+  const difSelect = document.getElementById('difficulty');
+
+  // Disable start button and params
+  difSelect.toggleAttribute('disabled');
+  sizeSelect.toggleAttribute('disabled');
+  document.getElementById('game-start-btn').toggleAttribute('disabled');
+
+  // Enable game pause
+  document.getElementById('game-pause-btn').toggleAttribute('disabled');
+
+  //Hide selects on mobile to save space
+  difSelect.classList.toggle('mobile-hidden');
+  sizeSelect.classList.toggle('mobile-hidden');
+  document.getElementById('difLbl').classList.toggle('mobile-hidden');
+  document.getElementById('sizeLbl').classList.toggle('mobile-hidden');
+
+  document.getElementById('game-area').classList.toggle('mobile-hidden');
+}
+
+const showDirectionOverlay = async (direction) => {
+  if (session.directionIsLocked) return;
+  const overlay = document.getElementById('direction-overlay');
+
+  overlay.innerHTML = MOVE_SET[direction]['overlay-content'];
+
+  overlay.classList.toggle('faded');
+  await delay(0.21).then( (_) => overlay.classList.toggle('faded') );
+
+  if (LOG_STATE) console.log('overlay:', overlay);
+}
+
+// Main boi
 const runGame = async () => {
+  getSessionParams();
+  toggleGameParams();
   resetSession();
   session.thread();
+  showGameArea();
 }

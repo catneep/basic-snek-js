@@ -7,9 +7,12 @@
 ✔ Track high score @done (26/7/2022 10:15:39)
 ✔ Dynamic difficulty @done (26/7/2022 10:15:06)
     ☐ Fine tune difficulties
-☐ Add session params
+✔ Add session params @done (27/7/2022 21:15:42)
 ☐ Make pretty
-    ☐ Display pause overlay
+    ✔ Display pause overlay @done (27/7/2022 21:16:12)
     ☐ Change color of collision coord (ateItself(), inGrid())
-    ☐ Layout
+    ✔ Layout @done (27/7/2022 21:16:17)
     ☐ Themes
+    ✔ Adjust 'pixel' size on grid set @done (27/7/2022 23:25:33)
+✔ Add mobile touch direction feedback @done (27/7/2022 23:25:36)
+☐ Add 'How to play'
