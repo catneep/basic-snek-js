@@ -32,6 +32,11 @@ const getNextCoord = (snek, direction) => {
   return result;
 }
 
+const toggleClasses = (elements, classname) =>
+  elements.forEach(
+    (element) => element.classList.toggle(classname)
+  );
+
 const MOVE_SET  = {
   'UP': {
     'row': -1,
@@ -519,12 +524,27 @@ const togglePlay = () => {
 
 const adjustPixelSize = (dim) => {
   const root = document.querySelector(':root');
-  console.log('value:', getComputedStyle(root).getPropertyValue('--base-unit'));
-  if (getComputedStyle(root).getPropertyValue('--base-unit') == '1.6em') return;
-  (dim[0] > 14) ?
-    root.style.setProperty('--base-unit', '16px')
-  :
-    root.style.setProperty('--base-unit', '2.5em');
+
+  const onMobile = window.innerWidth <= 620;
+  const needsLargeGrid = dim[0] > 14;
+
+  if (LOG_STATE) {
+    onMobile ? console.log('Is on mobile') : console.log('Is on desktop');
+    needsLargeGrid ? console.log('Render smalled pixels') : console.log('Render normal pixels');
+  }
+
+  if (onMobile)
+    needsLargeGrid ?
+      root.style.setProperty('--base-unit', '12px', 'important')
+    :
+      root.style.setProperty('--base-unit', '1.4em', 'important');
+  else
+    needsLargeGrid ?
+      root.style.setProperty('--base-unit', '16px', 'important')
+    :
+      root.style.setProperty('--base-unit', '2.5em', 'important');
+
+  if (LOG_STATE) console.log('--base-unit value:', getComputedStyle(root).getPropertyValue('--base-unit'));
 }
 
 const getSessionParams = () => {
@@ -551,6 +571,7 @@ const showGameArea = () => {
 }
 
 const toggleGameParams = () => {
+  const elements = [];
   const sizeSelect = document.getElementById('size');
   const difSelect = document.getElementById('difficulty');
 
@@ -563,12 +584,14 @@ const toggleGameParams = () => {
   document.getElementById('game-pause-btn').toggleAttribute('disabled');
 
   //Hide selects on mobile to save space
-  difSelect.classList.toggle('mobile-hidden');
-  sizeSelect.classList.toggle('mobile-hidden');
-  document.getElementById('difLbl').classList.toggle('mobile-hidden');
-  document.getElementById('sizeLbl').classList.toggle('mobile-hidden');
+  elements.push(difSelect);
+  elements.push(sizeSelect);
+  elements.push(document.getElementById('difLbl'));
+  elements.push(document.getElementById('game-area'));
+  elements.push(document.getElementById('sizeLbl'));
 
-  document.getElementById('game-area').classList.toggle('mobile-hidden');
+  toggleClasses(elements, 'mobile-hidden');
+
 }
 
 const showDirectionOverlay = async (direction) => {
