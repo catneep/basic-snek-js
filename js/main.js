@@ -571,7 +571,7 @@ const toggleGameParams = () => {
 }
 
 const showDirectionOverlay = async (direction) => {
-  if (session.directionIsLocked) return;
+  // if (!session.directionIsLocked) return;
   const overlay = document.getElementById('direction-overlay');
 
   overlay.innerHTML = MOVE_SET[direction]['overlay-content'];
