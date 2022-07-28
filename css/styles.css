@@ -112,14 +112,21 @@ body > header *,
 
 body > header button {
     cursor: pointer;
-    font-size: 2.2em;
+    padding: 16px;
     min-width: 3em;
     min-height: 3em;
-    padding: 16px;
+    font-size: 2.2em;
     border-radius: 8px;
 }
 
 body > header button:disabled{ cursor: default; }
+
+body > footer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    margin: 1em 0;
+}
 
 #scores {
     min-width: 13em;

@@ -553,8 +553,11 @@ const resetSession = () => session = new GameSession();
 const toggleTutorial = () => document.getElementById('how-to').classList.toggle('hidden');
 const moveSnek = async (direction) => {
   if (session.stop) return;
+
   session.setDirection(direction);
-  showDirectionOverlay(direction);
+
+  if (document.getElementById('swipesCb').checked)
+    showDirectionOverlay(direction);
 }
 const togglePlay = () => {
   if (session === undefined) return;
