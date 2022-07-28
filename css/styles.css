@@ -12,6 +12,34 @@
     font-family: "Lucida Console", "Courier New", monospace;
 }
 
+@keyframes pulse {
+    /* from {background-color: var(--food-color);}
+    to {background-color: var(--grid-background);} */
+    0% {
+		background-color: var(--grid-background);
+	}
+	40% {
+		background-color: var(--grid-background);
+	}
+	50% {
+		background-color: var(--food-color);
+	}
+	90% {
+		background-color: var(--food-color);
+	}
+	100% {
+		background-color: var(--food-color);
+	}
+}
+
+#main div.snek-body{
+    background-color: var(--snek-color);
+}
+
+#main div.food{
+    background-color: var(--food-color);
+}
+
 .faded{ opacity: 0 !important; }
 .hidden{ display: none !important; }
 .desktop-hidden{ display: none; }
@@ -138,14 +166,6 @@ body > header button:disabled{ cursor: default; }
     height: var(--base-unit);
     border-width: 1px;
     border-style: solid;
-}
-
-#main div.snek-body{
-    background-color: var(--snek-color);
-}
-
-#main div.food{
-    background-color: var(--food-color);
 }
 
 #how-to{

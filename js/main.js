@@ -17,6 +17,42 @@ const objectsAreEqual = function (var1, var2) {
   }
 }
 
+let eggo = false;
+const egg = () => {
+  if (eggo) return;
+  eggo = true;
+  console.log('Follow the white rabbit.');
+  // LOG_STATE = !LOG_STATE;
+  document.querySelector(':root').style.setProperty('--grid-background', '#000', 'important');
+  document.querySelector(':root').style.setProperty('--snek-color', '#00a600', 'important');
+  document.querySelector(':root').style.setProperty('--food-color', '#fff', 'important');
+  // document.head.appendChild(document.createElement('style')).innerHTML = '.food{animation: pulse 1.2s infinite;}';
+
+  document.removeEventListener('keyup', handleKeybinds);
+  document.addEventListener('keyup', (e) => {
+    switch (e.code){
+      case 'KeyA':
+      case 'ArrowLeft':
+        moveSnek('DOWN');
+        break;
+      case 'KeyD':
+      case 'ArrowRight':
+        moveSnek('UP');
+        break;
+      case 'KeyW':
+      case 'ArrowUp':
+        moveSnek('RIGHT');
+        break;
+      case 'KeyS':
+      case 'ArrowDown':
+        moveSnek('LEFT');
+        break;
+      
+    }
+  });
+  session.updateSpeed = 0.064;
+}
+
 const randInt = (upper) => {
   const randomInteger = Math.round(Math.random() * (upper));
   if (LOG_STATE) console.log('Generated INT:', randomInteger);
@@ -474,8 +510,7 @@ document.addEventListener('touchend', e => {
   if (result !== 'NONE') moveSnek(result);
 });
 
-// Key bindings
-document.addEventListener('keyup', (e) => {
+const handleKeybinds = (e) => {
   switch (e.code){
     case 'KeyW':
     case 'ArrowUp':
@@ -499,11 +534,17 @@ document.addEventListener('keyup', (e) => {
       if (session == undefined || !session.running) runGame();
       else togglePlay()
       break;
+    case 'F12':
+      egg();
+      break;
     default:
-      console.log('Key code:', e.code);
+      // console.log('Key code:', e.code);
       break;
   }
-});
+}
+
+// Key bindings
+document.addEventListener('keyup', (e) => handleKeybinds(e));
 
 // Session control (Calls from HTML)
 let session;
