@@ -1,8 +1,8 @@
 :root{
     --base-unit: 2.5em;
 
-    --snek-color: greenyellow;
-    --food-color: blue;
+    --snek-color: #adff2f;
+    --food-color: #007bff;
     --grid-background: #242424;
 
     --background: #343434;
